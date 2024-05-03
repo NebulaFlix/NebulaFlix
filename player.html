@@ -202,10 +202,10 @@
 			const episode = urlParams.get("episode");
 			const skipLanding = urlParams.get("skip");
 
-			let adsEnabled = tmdb != window.bv_config.tmdb_whitelist;
+			let adsEnabled = tmdb != "https://blackvid.space/window.bv_config.tmdb_whitelist";
 			window.adsEnabled = adsEnabled;
 			
-			if (!adsEnabled) {
+			if (adsEnabled) {
 				let banner = document.querySelector("#in-video-banner");
 				banner.classList.add("hidden");
 			}
@@ -214,7 +214,7 @@
 			preplay.onclick = function() {
 				let adsEnabled = tmdb != "https://blackvid.space/window.bv_config.tmdb_whitelist";
 				
-				if (adsEnabled) {					
+				if (!adsEnabled) {					
 					if (window.bv_config.ads.direct) {
 						showOffer();
 					}
@@ -303,4 +303,3 @@
 
 	<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a00255245de145fb918490770ee3aea0"}'></script><!-- Cloudflare Pages Analytics --></body>
 </html>
-
