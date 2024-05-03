@@ -1,0 +1,1018 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="NebulaFlix Player">
+    <meta property="og:description" content="NebulaFlix Is The Biggest Library Of HD Movies and TV Shows Online. 100% Free With No Account Signup Required.">
+    <meta property="og:image" content="https://i.imgur.com/kO03yyM_d.webp?maxwidth=760&fidelity=grand">
+    <meta property="og:url" content="https://nebulaflix.stream">
+    <meta property="og:type" content="website">
+    <title>Nebula Media Player</title>
+    <link rel="icon" href="https://i.imgur.com/kO03yyM_d.webp?maxwidth=760&fidelity=grand" type="image/png">
+    <style>
+        .selectcontainer {
+          position: absolute;
+          z-index: 100;
+          right: 0.5%;
+          top: 0.5%;
+          height: 50%;
+        }
+        
+        button {
+          background-color: #282828;
+          color: #ffffff;
+          border: none;
+          padding: 10px;
+          margin: 10px;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          text-align: center;
+          z-index: 100;
+          display: block;
+          position: relative;
+        }
+        
+        select {
+          background-color: #282828;
+          color: #ffffff;
+          border: none;
+          padding: 10px;
+          margin: 10px;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          text-align: center;
+          z-index: 100;
+          display: none;
+          position: relative;
+        }
+        
+        select option {
+          background-color: #333;
+          color: #ffffff;
+          border-radius: 5px;
+          border: none;
+          padding: 10px;
+          font-size: 16px;
+        }
+        
+        select option:hover {
+          background-color: #444;
+        }
+        
+        select option:checked {
+          background-color: #555;
+        }
+        
+        html, body {
+          height: 100%;
+          background-color: #373737;
+          color: #ffffff;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          font-size: 16px;
+          padding: 0px;
+          margin: 0px;
+        }
+        
+        body {
+          overflow: hidden;
+        }
+        
+        #player {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          padding: 0px;
+          margin: 0px;
+        }
+        
+        .modal {
+          display: none;
+          position: fixed;
+          width: 20%;
+          height: 50%;
+          background-color: rgba(0, 0, 0, 0.4);
+          right: 3.5%;
+          top: 1.5%;
+          z-index: 999999;
+        }
+        
+        .modal-content {
+          overflow-y: scroll;
+          background-color: #282828;
+          padding: 20px;
+          border-radius: 5px;
+          width: 100%;
+          height: 100%;
+          max-width: 600px;
+          position: relative;
+          z-index: 999999;
+        }
+        
+        .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+          z-index: 999999;
+        }
+        
+        .close:hover,
+        .close:focus {
+          color: #ffffff;
+          text-decoration: none;
+          cursor: pointer;
+          z-index: 999999;
+        }
+        
+        .episode-button {
+          align-items: center;
+          margin-bottom: 10px;
+          cursor: pointer;
+          width: 80%;
+          /* Set width to 100% */
+          border-radius: 5px;
+          /* Add rounded corners */
+          padding: 15px;
+          /* Add padding to the buttons */
+          background-color: #333333;
+          color: #ffffff;
+        }
+        
+        .episode-button:hover {
+          background-color: #ffffff;
+          color: #333333;
+          text-decoration: none;
+          cursor: pointer;
+        }
+        
+        .episode-button img {
+          width: 100%;
+          /* Adjust width as desired */
+          height: auto;
+        }
+        
+        #modal {
+          display: none;
+          position: fixed;
+          z-index: 1;
+          width: 20%;
+          height: 50%;
+          background-color: rgba(0, 0, 0, 0.4);
+          right: 3.5%;
+          top: 1.5%;
+          z-index: 999999;
+        }
+        
+        #modal-content {
+          overflow-y: scroll;
+          background-color: #282828;
+          padding: 20px;
+          border-radius: 5px;
+          width: 100%;
+          height: 100%;
+          max-width: 600px;
+          position: relative;
+          z-index: 999999;
+        }
+        
+        #modal-close-button {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+          z-index: 999999;
+        }
+        
+        #modal-close-button:hover,
+        #modal-close-button:focus {
+          color: #ffffff;
+          text-decoration: none;
+          cursor: pointer;
+          z-index: 999999;
+        }
+        
+        #episode-button img {
+          width: 100%;
+          /* Adjust width as desired */
+          height: auto;
+          margin-right: 10px;
+        }
+        
+        .server-modal {
+          display: none;
+          position: fixed;
+          z-index: 999999;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.6);
+          overflow-y: scroll;
+        }
+        
+        .server-button {
+          align-items: center;
+          margin-bottom: 10px;
+          cursor: pointer;
+          width: 80%;
+          /* Set width to 100% */
+          border-radius: 5px;
+          /* Add rounded corners */
+          padding: 15px;
+          /* Add padding to the buttons */
+          background-color: #333333;
+          color: #ffffff;
+        }
+        
+        .server-modal-content {
+          position: fixed;
+          top: 2%;
+          right: 1%;
+          background-color: #333;
+          padding: 5px;
+          border: 1px solid #888;
+          height: 50%;
+          width: 20%;
+          overflow-y: scroll;
+          z-index: 999999;
+        }
+        
+        .server-close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+        }
+        
+        .server-close:hover,
+        .server-close:focus {
+          color: #fff;
+          text-decoration: none;
+          cursor: pointer;
+        }
+        
+        .server-list {
+          list-style-type: none;
+          padding: 0;
+        }
+        
+        .server-list-item {
+          margin-bottom: 20px;
+        }
+        
+        .server-option {
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+        
+        .server-option:hover {
+          background-color: #444;
+        }
+        
+        .server-option input[type="radio"] {
+          margin-right: 10px;
+          display: none;
+        }
+        
+        .server-option label {
+          font-size: 16px;
+        }
+        
+        .server-option p {
+          font-size: 14px;
+          color: #aaa;
+          margin-left: 30px;
+        }
+        
+        .server-option span {
+          margin-right: 15px;
+          font-weight: bold;
+          white-space: nowrap;
+        }
+        
+        .server-option .available {
+          color: #28a745;
+        }
+        
+        .server-option .unavailable {
+          color: #dc3545;
+        }
+        
+        /* Icon styles */
+        .icon {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          margin-right: 5px;
+          fill: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="selectcontainer">
+        <select id="server-selector" onchange="changeServer()">
+            <option value="1">Server 1</option>
+            <option value="2">Server 2</option>
+            <option value="3">Server 3</option>
+            <option value="4">Server 4</option>
+            <option value="5">Server 5</option>
+            <option value="6">Server 6</option>
+            <option value="7">Server 7</option>
+            <option value="8">Server 8</option>
+            <option value="9">Server 9</option>
+        </select>
+        <button onclick="ServerModal.openModal()">Server Select</button>
+        <select id="season-selector" onchange="updateURL()">
+        </select>
+        <select id="episode-selector" onchange="updateURL()">
+        </select>
+        <button id="episode-select-button">Episode Select</button>
+        <button id="episode-info">Episode Info</button>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="poster" src="" alt="Episode Poster" style="max-width: 100%; margin-bottom: 10px;">
+            <div id="episodeInfo"></div>
+        </div>
+    </div>
+    <div id="modal">
+        <div id="modal-content">
+            <span id="modal-close-button">&#10006;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+    <div id="serverModal" class="server-modal">
+        <div class="server-modal-content">
+            <span class="server-close" onclick="ServerModal.closeModal()">&times;</span>
+            <h2>Available Media Servers</h2>
+            <ul class="server-list">
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="1">
+                        <img class="icon" src="https://moviesapi.club/asset/images/favicon.png" alt="MovieClub Icon"> MovieClub <p>
+                            <span class="unavailable">Multi-Server</span>
+                            <span class="available">Subtitles</span>
+                            <span class="available">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+            <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="2">
+                        <img class="icon" src="https://vidsrc.to/assets/web/images/favicon.png" alt="WebSrc Icon"> WebSrc <p>
+                            <span class="unavailable">Multi-Server</span>
+                            <span class="available">Subtitles</span>
+                            <span class="available">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="3">
+                        <img class="icon" src="https://www.superembed.stream/favicon.ico" alt="SuperEmbed Icon"> SuperEmbed <p>
+                            <span class="available">Multi-Server</span>
+                            <span class="available">Subtitles</span>
+                            <span class="available">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="4">
+                        <img class="icon" src="https://smashystream.com/favicon.ico" alt="SmashyStream Icon"> SmashyStream <p>
+                            <span class="available">Multi-Server</span>
+                            <span class="available">Subtitles</span>
+                            <span class="available">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="5">
+                        <img class="icon" src="https://vidsrc.me/template/vidsrc-ico.png" alt="VidSrc Icon"> VidSrc <p>
+                            <span class="available">Multi-Server</span>
+                            <span class="available">Subtitles</span>
+                            <span class="available">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="6">
+                        <img class="icon" src="https://www.2embed.cc/images/favicon.png" alt="2Embed Icon"> 2Embed <p>
+                            <span class="available">Multi-Server</span>
+                            <span class="unavailable">Subtitles</span>
+                            <span class="available">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="7">
+                        <img class="icon" src="https://user.gomo.to/public/images/favicon.png" alt="GoMo Icon"> GoMo <p>
+                            <span class="available">Multi-Server</span>
+                            <span class="unavailable">Subtitles</span>
+                            <span class="available">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="8">
+                        <img class="icon" src="https://2embed.org/public/images/favicon.png" alt="EmbedStream Icon"> EmbedStream <p>
+                            <span class="available">Multi-Server</span>
+                            <span class="available">Subtitles</span>
+                            <span class="available">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="9">
+                        <img class="icon" src="https://autoembed.to/assets/icon/favicon-32x32.png" alt="AutoEmbed Icon"> AutoEmbed <p>
+                            <span class="available">Multi-Server</span>
+                            <span class="available">Subtitles</span>
+                            <span class="available">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="10">
+                        <img class="icon" src="https://mostream.co/assets/images/favicons.png" alt="MoStream Icon"> MoStream <p>
+                            <span class="available">Multi-Server</span>
+                            <span class="unavailable">Subtitles</span>
+                            <span class="unavailable">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="11">
+                        <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg" alt="GoogleDrive Icon"> GoogleDrive <p>
+                            <span class="unavailable">Multi-Server</span>
+                            <span class="unavailable">Subtitles</span>
+                            <span class="unavailable">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+                <li class="server-list-item">
+                    <label class="server-option">
+                        <input type="radio" name="server" value="12">
+                        <img class="icon" src="https://frembed.com/img/frembed-blue.png" alt="FRembed Icon"> FRembed <p>
+                            <span class="available">Multi-Server</span>
+                            <span class="unavailable">Subtitles</span>
+                            <span class="available">HD Quality</span>
+                        </p>
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.write('<iframe id="player" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>');
+        const urlParams = new URLSearchParams(window.location.search);
+        const imdbId = urlParams.get('si') || urlParams.get('st');
+        const apiKeyTmdb = "0ae47aadd2d85a324c238972cedab662";
+        const apiKeyOmdb = "67614538";
+        const apiUrlTmdb = `https://api.themoviedb.org/3/find/{imdb_id}?api_key=${apiKeyTmdb}&language=en-US&external_source=imdb_id`;
+        const apiUrlOmdb = `https://www.omdbapi.com/?apikey=${apiKeyOmdb}&plot=full&t=`;
+        const apiUrl = apiUrlTmdb.replace('{imdb_id}', imdbId);
+        if(urlParams.has("si") || urlParams.has("st")) {
+          document.getElementById("season-selector").style.display = "block";
+          document.getElementById("episode-select-button").style.display = "block";
+          document.getElementById("episode-info").style.display = "block";
+        } else {
+          document.getElementById("season-selector").style.display = "none";
+          document.getElementById("episode-select-button").style.display = "none";
+          document.getElementById("episode-info").style.display = "none";
+        }
+        if(urlParams.has("mi") || urlParams.has("mt")) {
+          document.getElementById("season-selector").style.display = "none";
+          document.getElementById("episode-select-button").style.display = "none";
+          document.getElementById("episode-info").style.display = "none";
+        }
+        if(urlParams.has("si") || urlParams.has("st") || urlParams.has("mi") || urlParams.has("mt")) {
+          document.getElementById("server-selector").style.display = "none";
+        }
+        
+        function getCompatibility() {
+          // Function to get URL parameters
+          function getUrlParams() {
+            var params = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+              params[key] = value;
+            });
+            return params;
+          }
+          // Function to convert IMDBID to TMDBID
+          function convertIMDBIDtoTMDBID(imdbID) {
+            var apiKey = '0ae47aadd2d85a324c238972cedab662';
+            // Assuming imdbID is for a movie
+            var apiUrl = `https://api.themoviedb.org/3/find/${imdbID}?api_key=${apiKey}&external_source=imdb_id`;
+            // Assuming imdbID is for a TV show
+            // var apiUrl = `https://api.themoviedb.org/3/find/${imdbID}?api_key=${apiKey}&external_source=imdb_id&media_type=tv`;
+            // Make the API request to get movie/show details
+            fetch(apiUrl).then(function(response) {
+              return response.json();
+            }).then(function(data) {
+              // Assuming the response contains the TMDB ID
+              var tmdbID = data.movie_results[0].id; // Access the TMDB ID from the response
+              // Update the URL parameter with TMDB ID
+              if(params.mi) {
+                params.mt = tmdbID;
+                delete params.mi;
+              }
+              if(params.si) {
+                params.st = tmdbID;
+                delete params.si;
+              }
+              // Redirect to the updated URL
+              var updatedUrl = formatUrl(params);
+              window.location.href = updatedUrl;
+            }).catch(function(error) {
+              console.error('Error:', error);
+            });
+          }
+          // Function to convert TMDBID to IMDBID
+          function convertTMDBIDtoIMDBID(tmdbID) {
+            // Replace the 'YOUR_API_KEY' with your actual TMDB API key
+            var apiKey = '0ae47aadd2d85a324c238972cedab662';
+            // Assuming tmdbID is for a movie
+            var apiUrl = `https://api.themoviedb.org/3/movie/${tmdbID}?api_key=${apiKey}`;
+            // Assuming tmdbID is for a TV show
+            // var apiUrl = `https://api.themoviedb.org/3/tv/${tmdbID}?api_key=${apiKey}`;
+            // Make the API request to get movie/show details
+            fetch(apiUrl).then(function(response) {
+              return response.json();
+            }).then(function(data) {
+              // Assuming the response contains the IMDB ID
+              var imdbID = data.imdb_id;
+              // Update the URL parameter with IMDB ID
+              if(params.mt) {
+                params.mi = imdbID;
+                delete params.mt;
+              }
+              if(params.st) {
+                params.si = imdbID;
+                delete params.st;
+              }
+              // Redirect to the updated URL
+              var updatedUrl = formatUrl(params);
+              window.location.href = updatedUrl;
+            }).catch(function(error) {
+              console.error('Error:', error);
+            });
+          }
+          // Function to format parameters as URL query string
+          function formatParams(params) {
+            var formattedParams = [];
+            for(var key in params) {
+              formattedParams.push(key + '=' + params[key]);
+            }
+            return formattedParams.join('&');
+          }
+          // Function to format the URL
+          function formatUrl(params) {
+            var base = window.location.origin + window.location.pathname;
+            var idKey = params.mi ? 'mi' : 'si';
+            var idValue = params.mi || params.si;
+            var server = params.server;
+            var formattedUrl = `${base}?${idKey}=${idValue}&server=${server}`;
+            if(params.mt) {
+              formattedUrl = `${base}?mt=${params.mt}&server=${server}`;
+            }
+            if(params.mi) {
+              formattedUrl = `${base}?mi=${params.mi}&server=${server}`;
+            }
+            if(params.st) {
+              formattedUrl = `${base}?st=${params.st}&season=${season}&episode=${episode}&server=${server}`;
+            }
+            if(params.si) {
+              formattedUrl = `${base}?si=${params.si}&season=${season}&episode=${episode}&server=${server}`;
+            }
+            return formattedUrl;
+          }
+          // Get the URL parameters
+          var params = getUrlParams();
+          
+          // Convert ID To IMDB For GOMO
+          if(params.server === '7' && (params.mt || params.st)) {
+            var tmdbID = params.mt || params.st;
+            convertTMDBIDtoIMDBID(tmdbID);
+          }
+          
+          // Convert ID To TMDB
+          if(params.server === '0' && (params.mi || params.si)) {
+            var imdbID = params.mi || params.si;
+            convertIMDBIDtoTMDBID(imdbID);
+          }
+        }
+        
+        function getShowDetails() {
+          var tmdbApiKey = '0ae47aadd2d85a324c238972cedab662';
+          var urlParams = new URLSearchParams(window.location.search);
+          var tmdbId = urlParams.get('st');
+          if(tmdbId) {
+            // Make API request to get show details
+            $.getJSON('https://api.themoviedb.org/3/tv/' + tmdbId + '?api_key=' + tmdbApiKey).done(function(data) {
+              var seasons = data.seasons;
+              if(seasons && seasons.length > 0) {
+                var seasonSelector = document.getElementById('season-selector');
+                seasons.forEach(function(season) {
+                  var option = document.createElement('option');
+                  option.value = season.season_number;
+                  option.text = 'Season ' + season.season_number;
+                  seasonSelector.appendChild(option);
+                });
+                var currentSeason = urlParams.get('season');
+                if(currentSeason) {
+                  seasonSelector.value = currentSeason;
+                  populateEpisodes();
+                }
+              }
+            }).fail(function() {
+              var showDetails = 'Error occurred while retrieving show details.';
+              document.getElementById('show-details').innerHTML = showDetails;
+            });
+          } else {
+            var showDetails = 'No TMDB ID specified.';
+            document.getElementById('show-details').innerHTML = showDetails;
+          }
+        }
+        
+        function populateEpisodes() {
+          var urlParams = new URLSearchParams(window.location.search);
+          var tmdbApiKey = '0ae47aadd2d85a324c238972cedab662';
+          var tmdbId = new URLSearchParams(window.location.search).get('st');
+          var seasonNumber = urlParams.get('season');
+          var episodeSelector = document.getElementById('episode-selector');
+          if(tmdbId && seasonNumber) {
+            // Make API request to get episodes for the selected season
+            $.getJSON('https://api.themoviedb.org/3/tv/' + tmdbId + '/season/' + seasonNumber + '?api_key=' + tmdbApiKey).done(function(seasonData) {
+              var episodes = seasonData.episodes;
+              if(episodes && episodes.length > 0) {
+                episodes.forEach(function(episode) {
+                  var option = document.createElement('option');
+                  option.value = episode.episode_number;
+                  option.text = 'Episode ' + episode.episode_number;
+                  episodeSelector.appendChild(option);
+                });
+                var currentEpisode = new URLSearchParams(window.location.search).get('episode');
+                if(currentEpisode) {
+                  episodeSelector.value = currentEpisode;
+                }
+              }
+            }).fail(function() {
+              var showDetails = 'Error occurred while retrieving episodes.';
+              document.getElementById('show-details').innerHTML = showDetails;
+            });
+          }
+        }
+        
+        function updateURL() {
+          var urlParams = new URLSearchParams(window.location.search);
+          var tmdbId = urlParams.get('st');
+          var server = urlParams.get('server');
+          var seasonNumber = document.getElementById('season-selector').value;
+          var episodeNumber = document.getElementById('episode-selector').value;
+          
+          urlParams.set("season", seasonNumber);
+          urlParams.set("episode", episodeNumber);
+          var newUrl = window.location.pathname + "?" + urlParams.toString();
+          history.replaceState(null, null, newUrl);
+          changeServer();
+        }
+        
+        function changeServer() {
+          const serverSelector = document.getElementById("server-selector");
+          const selectedServer = serverSelector.value;
+          const playerURL = createPlayerURL(selectedServer);
+          const iframe = document.getElementById("player");
+          iframe.src = playerURL;
+          getCompatibility();
+        }
+        window.onload = function() {
+          changeServer();
+          getShowDetails();
+        };
+        // Function to open the modal
+        function openModal() {
+          var modal = document.getElementById("myModal");
+          modal.style.display = "block";
+        }
+        // Function to close the modal
+        function closeModal() {
+          var modal = document.getElementById("myModal");
+          modal.style.display = "none";
+        }
+        // Function to fetch TMDB episode information
+        function fetchEpisodeInfo() {
+          // Retrieve the parameters from the URL
+          const urlParams = new URLSearchParams(window.location.search);
+          const tmdbId = urlParams.get("st");
+          const seasonNumber = urlParams.get("season");
+          const episodeNumber = urlParams.get("episode");
+          // Fetch episode information from TMDB API
+          const apiKey = "0ae47aadd2d85a324c238972cedab662";
+          const apiUrl = `https://api.themoviedb.org/3/tv/${tmdbId}/season/${seasonNumber}/episode/${episodeNumber}?api_key=${apiKey}`;
+          // Make a GET request to TMDB API
+          fetch(apiUrl).then((response) => response.json()).then((data) => {
+            // Display the fetched episode information
+            var episodeInfo = document.getElementById("episodeInfo");
+            var poster = document.getElementById("poster");
+            poster.src = `https://image.tmdb.org/t/p/w500/${data.still_path}`;
+            episodeInfo.innerHTML = `
+                    <h3>Title: ${data.name}</h3>
+                    <p>Overview: ${data.overview}</p>
+                    <p>Season: ${data.season_number} Episode: ${data.episode_number}</p>
+                    <p>Air Date: ${data.air_date}</p>
+                    <p>Average Rating: ${data.vote_average}</p>
+                  `;
+          }).catch((error) => {
+            console.log("Error:", error);
+          });
+        }
+        // Event listener for the button click
+        document.getElementById("episode-info").addEventListener("click", function() {
+          fetchEpisodeInfo();
+          openModal();
+        });
+        // Event listener to close the modal when the user clicks outside of it
+        window.addEventListener("click", function(event) {
+          var modal = document.getElementById("myModal");
+          if(event.target == modal) {
+            closeModal();
+          }
+        });
+        // Event listener to close the modal when the user clicks the close button
+        document.getElementsByClassName("close")[0].addEventListener("click", function() {
+          closeModal();
+        });
+        $(document).ready(function() {
+          // Get URL parameters
+          const urlParams = new URLSearchParams(window.location.search);
+          const tmdbID = urlParams.get('st');
+          const seasonNumber = urlParams.get('season');
+          const episodeNumber = urlParams.get('episode');
+          // Function to update URL parameters and refresh the page
+          function updateURLParams(season, episode) {
+            const newParams = new URLSearchParams(window.location.search);
+            modal.style.display = "none";
+            newParams.set('season', season);
+            newParams.set('episode', episode);
+            urlParams.set("season", seasonNumber);
+            urlParams.set("episode", episodeNumber);
+            var newUrl = window.location.pathname + "?" + newParams.toString();
+            history.replaceState(null, null, newUrl);
+            changeServer();
+          }
+          // Function to fetch and display episodes of the current season
+          function displayEpisodes() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const seasonNumber = urlParams.get('season');
+            const endpoint = `https://api.themoviedb.org/3/tv/${tmdbID}/season/${seasonNumber}?api_key=0ae47aadd2d85a324c238972cedab662`;
+            // Make API request
+            $.ajax({
+              url: endpoint,
+              success: function(data) {
+                const episodes = data.episodes;
+                const modalBody = $('#modal-body');
+                // Clear previous episode buttons
+                modalBody.empty();
+                // Display each episode as a button
+                episodes.forEach(function(episode) {
+                  const episodeButton = $('<button/>').addClass('episode-button').html(`
+                          <img src="https://image.tmdb.org/t/p/w500/${episode.still_path}" alt="${episode.name}" />
+                          <div>Episode ${episode.episode_number}: ${episode.name}</div>
+                        `).on('click', function() {
+                    updateURLParams(seasonNumber, episode.episode_number);
+                  });
+                  modalBody.append(episodeButton);
+                });
+              }
+            });
+          }
+          // Open modal and display episodes when button is clicked
+          $('#episode-select-button').on('click', function() {
+            displayEpisodes();
+            $('#modal').show();
+            displayEpisodes();
+          });
+          // Close modal when the close button is clicked
+          $('#modal-close-button').on('click', function() {
+            $('#modal').hide();
+          });
+          // Initialize the page
+          displayEpisodes();
+        });
+        // ServerModal namespace to encapsulate the server modal functionality
+        var ServerModal = (function() {
+          var modal = document.getElementById("serverModal");
+        
+          function openModal() {
+            modal.style.display = "block";
+          }
+        
+          function closeModal() {
+            modal.style.display = "none";
+          }
+          // Update URL parameter when a server is selected
+          var serverRadios = document.getElementsByName("server");
+          for(var i = 0; i < serverRadios.length; i++) {
+            serverRadios[i].addEventListener("change", function() {
+              var selectedServer = document.querySelector('input[name="server"]:checked');
+              if(selectedServer) {
+                var serverName = selectedServer.value;
+                var urlParams = new URLSearchParams(window.location.search);
+                urlParams.set("server", serverName);
+                var newUrl = window.location.pathname + "?" + urlParams.toString();
+                history.replaceState(null, null, newUrl);
+                changeServer()
+                closeModal()
+              }
+            });
+          }
+          // Expose public methods
+          return {
+            openModal: openModal,
+            closeModal: closeModal
+          };
+        })();
+        
+        function createPlayerURL(server) {
+          const urlParams = new URLSearchParams(window.location.search);
+          const srcserver = server
+          const playerserver = urlParams.get('server');
+          const mi = urlParams.get('mi');
+          const mt = urlParams.get('mt');
+          const si = urlParams.get('si');
+          const st = urlParams.get('st');
+          const season = urlParams.get('season');
+          const episode = urlParams.get('episode');
+          let playerURL = '';
+          switch(playerserver) {
+              case '0':
+            if(mi) {
+                playerURL = `https://blackvid.space/embed?imdb=${mi}`;
+              } else if(mt) {
+                playerURL = `https://blackvid.space/embed?tmdb=${mt}`;
+              } else if(si) {
+                playerURL = `https://blackvid.space/embed?imdb=${si}&season=${season}&episode=${episode}`;
+              } else if(st) {
+                playerURL = `https://blackvid.space/embed?tmdb=${st}&season=${season}&episode=${episode}`;
+              }
+              break;
+            case '1':
+            if(mi) {
+                playerURL = `https://moviesapi.club/movie/${mi}`;
+              } else if(mt) {
+                playerURL = `https://moviesapi.club/movie/${mt}`;
+              } else if(si) {
+                playerURL = `https://moviesapi.club/tv/${si}-${season}-${episode}`;
+              } else if(st) {
+                playerURL = `https://moviesapi.club/tv/${st}-${season}-${episode}`;
+              }
+              break;
+            case '2':
+              if(mi) {
+                playerURL = `https://vidsrc.to/embed/movie/${mi}`;
+              } else if(mt) {
+                playerURL = `https://vidsrc.to/embed/movie/${mt}`;
+              } else if(si) {
+                playerURL = `https://vidsrc.to/embed/tv/${si}/${season}/${episode}`;
+              } else if(st) {
+                playerURL = `https://vidsrc.to/embed/tv/${st}/${season}/${episode}`;
+              }
+              break;
+            case '3':
+              if(mi) {
+                playerURL = `https://multiembed.mov/?video_id=${mi}`;
+              } else if(mt) {
+                playerURL = `https://multiembed.mov/?video_id=${mt}&tmdb=1`;
+              } else if(si) {
+                playerURL = `https://multiembed.mov/?video_id=${si}&s=${season}&e=${episode}`;
+              } else if(st) {
+                playerURL = `https://multiembed.mov/?video_id=${st}&tmdb=1&s=${season}&e=${episode}`;
+              }
+              break;
+            case '4':
+              if(mi) {
+                playerURL = `https://embed.smashystream.com/playere.php?imdb=${mi}`;
+              } else if(mt) {
+                playerURL = `https://embed.smashystream.com/playere.php?tmdb=${mt}`;
+              } else if(si) {
+                playerURL = `https://embed.smashystream.com/playere.php?imdb=${si}&season=${season}&episode=${episode}`;
+              } else if(st) {
+                playerURL = `https://embed.smashystream.com/playere.php?tmdb=${st}&season=${season}&episode=${episode}`;
+              }
+              break;
+            case '5':
+              if(mi) {
+                playerURL = `https://v2.vidsrc.me/embed/${mi}`;
+              } else if(mt) {
+                playerURL = `https://v2.vidsrc.me/embed/${mt}`;
+              } else if(si) {
+                playerURL = `https://v2.vidsrc.me/embed/${si}/${season}-${episode}`;
+              } else if(st) {
+                playerURL = `https://v2.vidsrc.me/embed/${st}/${season}-${episode}`;
+              }
+              break;
+            case '6':
+              if(mi) {
+                playerURL = `https://www.2embed.cc/embed/${mi}`;
+              } else if(mt) {
+                playerURL = `https://www.2embed.cc/embed/${mt}`;
+              } else if(si) {
+                playerURL = `https://www.2embed.cc/embed/${si}&s=${season}&e=${episode}`;
+              } else if(st) {
+                playerURL = `https://www.2embed.cc/embed/${st}&s=${season}&e=${episode}`;
+              }
+              break;
+            case '7':
+              if(mi) {
+                playerURL = `https://gomo.to/movie/${mi}`;
+              } else if(mt) {
+                playerURL = `https://gomo.to/movie/${mt}`;
+              } else if(si) {
+                playerURL = `https://gomo.to/show/${si}/${season}-${episode}`;
+              } else if(st) {
+                playerURL = `https://gomo.to/show/${st}/${season}-${episode}`;
+              }
+              break;
+             case '8':
+              if(mi) {
+                playerURL = `https://2embed.org/e.php?id=${mi}`;
+              } else if(mt) {
+                playerURL = `https://2embed.org/e.php?id=${mt}`;
+              } else if(si) {
+                playerURL = `https://2embed.org/series.php?id=${si}/${season}/${episode}`;
+              } else if(st) {
+                playerURL = `https://2embed.org/series.php?id=${st}/${season}/${episode}`;
+              }
+              break;
+            case '9':
+              if(mi) {
+                playerURL = `https://autoembed.to/movie/imdb/${mi}?server=9&ss=2`;
+              } else if(mt) {
+                playerURL = `https://autoembed.to/movie/tmdb/${mt}?server=9&ss=2`;
+              } else if(si) {
+                playerURL = `https://autoembed.to/tv/imdb/${si}-${season}-${episode}?server=9&ss=2`;
+              } else if(st) {
+                playerURL = `https://autoembed.to/tv/tmdb/${st}-${season}-${episode}?server=9&ss=2`;
+              }
+              break;
+            case '10':
+              if(mi) {
+                playerURL = `https://mostream.me/embed.php?imdb=${mi}`;
+              } else if(mt) {
+                playerURL = `https://mostream.me/embed.php?tmdb=${mt}`;
+              } else if(si) {
+                playerURL = `https://mostream.me/embed.php?imdb=${si}&s=${season}&e=${episode}`;
+              } else if(st) {
+                playerURL = `https://mostream.me/embed.php?tmdb=${st}&s=${season}&e=${episode}`;
+              }
+              break;
+            case '11':
+              if(mi) {
+                playerURL = `https://databasegdriveplayer.xyz/player.php?imdb=${mi}`;
+              } else if(mt) {
+                playerURL = `https://databasegdriveplayer.xyz/player.php?tmdb=${mt}`;
+              } else if(si) {
+                playerURL = `https://databasegdriveplayer.xyz/player.php?type=series&imdb={si}&season=${season}&episode=${episode}`;
+              } else if(st) {
+                playerURL = `https://databasegdriveplayer.xyz/player.php?type=series&tmdb={st}&season=${season}&episode=${episode}`;
+              }
+              break;
+             case '12':
+              if(mi) {
+                playerURL = `https://frembed.com/api/film.php?id=${mi}`;
+              } else if(mt) {
+                playerURL = `https://frembed.com/api/film.php?id=${mt}`;
+              } else if(si) {
+                playerURL = `https://frembed.com/api/serie.php?id=${si}&sa=${season}&epi=${episode}`;
+              } else if(st) {
+                playerURL = `https://frembed.com/api/serie.php?id=${st}&sa=${season}&epi=${episode}`;
+              }
+              break;
+          }
+          return playerURL;
+        }
+        const playerURL = createPlayerURL();
+        const player = document.getElementById('player');
+        player.src = playerURL;
+    </script>
+</body>
+
+</html>
