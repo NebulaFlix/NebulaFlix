@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+  <style>
+    /* Default */
+    html {
+      height: 100%;
+    }
+
+    header {
+      display: block;
+      text-align: center;
+    }
+
+    body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      transition: background 0.5s;
+      background-color: #151728;
+    }
+
+    /* .bg {
+      background: linear-gradient(to right,
+          rgba(17, 17, 17, 1),
+          rgba(17, 17, 17, 0.7),
+          rgba(17, 17, 17, 0.1),
+          rgba(17, 17, 17, 1)),
+        url("https://wallpapercave.com/wp/wp3189881.jpg");
+      min-height: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    } */
+
+    .logo {
+      font-family: 'Quicksand', sans-serif;
+      color: #f0f0f0;
+      text-align: center;
+      margin: 5px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .container {
+      cursor: pointer;
+      position: absolute;
+      z-index: 10;
+      text-align: center;
+      display: inline-block;
+      left: 15px;
+    }
+
+    .bar1,
+    .bar2,
+    .bar3 {
+      width: 25px;
+      height: 3px;
+      background-color: #f0f0f0;
+      margin: 8px 0;
+      transition: 0.4s;
+    }
+
+    .change .bar1 {
+      transform: translate(-11px, 11px) rotate(90deg);
+    }
+
+    .change .bar2 {
+      transform: translate(0, 0) rotate(90deg);
+    }
+
+    .change .bar3 {
+      transform: translate(11px, -11px) rotate(90deg);
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #1D2021;
+        opacity: 1;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidenav a {
+        padding: 10px 0;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin: 0;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .sidenav a.selected {
+        color: #f1f1f1;
+    }
+
+    .genre,
+    .year,
+    .director,
+    .writer {
+      font-size: 30px;
+      font-family: 'Quicksand', sans-serif;
+      color: #f0f0f0;
+      padding: 2px;
+      display: inline;
+    }
+
+    aside {
+      display: block;
+      position: fixed;
+      bottom: 0px;
+      right: 0px;
+      width: 200px;
+      padding: 5px;
+      text-align: center;
+    }
+
+    .asidedetails {
+      padding: 2px;
+      color: #f0f0f0;
+      margin: 4px;
+    }
+
+    .description {
+      margin: 10px;
+      top: 170px;
+      left: 25px;
+      width: 700px;
+      padding: 5px;
+      text-align: left;
+      display: block;
+      position: fixed;
+    }
+
+    .movietitle {
+      font-size: 60px;
+      margin: 10px;
+      color: #f0f0f0;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .moviedescription {
+      font-size: 20px;
+      width: 600px;
+      margin: 5px;
+      color: #f0f0f0;
+    }
+
+    button {
+      background: none;
+      border-radius: 20px;
+      color: #f0f0f0;
+      padding: 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 42px 60px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #f0f0f0;
+      color: black;
+    }
+
+    .searchBar {
+      text-align: center;
+      padding: 20px;
+    }
+
+    form {
+      display: inline-block;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      width: 100px;
+      padding: 10px;
+      margin-right: 5px;
+      border: 1.5px solid #515151;
+      border-radius: 5px;
+    }
+
+    .searchButton {
+      display: inline-block;
+      background-color: none;
+      border: 2px solid #f0f0f0;
+      cursor: pointer;
+      padding: 10px;
+      margin: 0;
+      border: 0px solid #f0f0f0;
+      border-radius: 20px;
+      color: #f0f0f0;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      transition-duration: 0.4s;
+    }
+
+    /* Media */
+    @media only screen and (max-width: 900px) {
+      body {
+        display: block;
+      }
+
+      .logo {
+        font-family: 'Quicksand', sans-serif;
+        font-size: 25px;
+      }
+
+      .bg {
+        background: linear-gradient(to bottom,
+            rgba(17, 17, 17, 0.1),
+            rgba(17, 17, 17, 0.7),
+            rgba(17, 17, 17, 0.9)),
+          url(https://wallpapercave.com/wp/wp3189881.jpg);
+        background-position: center;
+        min-height: 100%;
+        background-size: cover;
+      }
+
+      .container {
+        display: inline-block;
+        cursor: pointer;
+        position: absolute;
+        z-index: 10;
+      }
+
+      .bar1,
+      .bar2,
+      .bar3 {
+        width: 25px;
+        height: 2px;
+        background-color: #f0f0f0;
+        margin: 6px 5px;
+        transition: 0.4s;
+      }
+
+      .change .bar1 {
+        transform: translate(-8px, 8px) rotate(90deg);
+      }
+
+      .change .bar2 {
+        transform: translate(0, 0) rotate(90deg);
+      }
+
+      .change .bar3 {
+        transform: translate(8px, -8px) rotate(90deg);
+      }
+
+      .sidenav {
+        padding-top: 15px;
+      }
+
+      .sidenav a {
+        font-size: 18px;
+      }
+
+      .director,
+      .writer,
+      .genre,
+      .year,
+      .asidedetails,
+      aside {
+        display: none;
+      }
+
+      .description {
+        text-align: center;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        top: initial;
+        text-align: center;
+        font-size: 25px;
+        position: fixed;
+        margin: 0 auto;
+        padding: 2px;
+        bottom: 0px;
+      }
+
+      .movietitle {
+        font-size: 25px;
+        text-align: center;
+        left: 15px;
+        margin-top: 10px;
+      }
+
+      .moviedescription {
+        max-width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+        text-align: justify;
+        margin: 5px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
+
+      .button-container button {
+        display: inline-block;
+        width: auto;
+        margin: 0px 15px;
+        border: 2px solid #f0f0f0;
+        border-radius: 20px;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+      }
+    }
+
+    .menu-heading {
+        padding: 8px 0; /* Adjust vertical padding */
+        text-decoration: none;
+        font-size: 20px;
+        color: #f0f0f0;
+        display: block;
+        transition: 0.3s;
+        margin: 10px 0; /* Add more margin between headings */
+        cursor: pointer;
+    }
+
+    .sub-menu {
+        padding-left: 40px;
+        display: none;
+        flex-direction: column;
+    }
+
+    .sub-menu.show-sub-menu {
+        display: block;
+    }
+
+    .sub-menu a {
+        text-decoration: none;
+        font-size: 16px; /* Adjust font size for sub-menu items */
+        color: #818181;
+        margin: 0;
+        padding-top: 8px;
+        padding-left: 20px;
+        border-radius: 15px; /* Add rounded corners */
+        transition: background-color 0.3s, color 0.3s; /* Add transition effect */
+        width: 85%;
+    }
+
+    .sub-menu a:hover {
+        background-color: #151728;
+        color: #f1f1f1;
+    }
+    
+    .now-playing-container {
+    padding: 20px;
+    color: white;
+  }
+
+  .now-playing-movies {
+    display: flex;
+    overflow-x: scroll;
+    padding-bottom: 20px;
+  }
+
+  .movie-box {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    transition: transform 0.3s;
+    width: 200px; /* Adjust width as needed */
+  }
+  
+.searchBar {
+  text-align: center;
+  padding: 20px;
+  height: 30vh; /* Set the height to 30% of the viewport height */
+  margin-bottom: 20px; /* Add margin between search section and Now Playing section */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchForm {
+  align-items: center;
+  height: 100%;
+  width: 60%; /* Set the width to 60% of the parent element (searchBar) */
+  margin-top: 15%; /* Center the form horizontally */
+}
+
+.searchInput {
+  width: 80% !important; /* Set the width to 100% to fill the available space */
+  padding: 10px;
+  border: 2px solid #f0f0f0;
+  border-radius: 5px;
+  font-size: 22px;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.searchButton {
+  display: inline-block;
+  background-color: #2b2e4a;
+  color: #c7c7c7;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  color: #f0f0f0;
+  font-size: 22px;
+  transition: background-color 0.3s ease;
+}
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <header>
+      <div class="container" onclick="open_closeNav(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+      <div id="mySidenav" class="sidenav">
+        <h1 class="logo" onclick="location.href='https://nebula.zya.me'">Nebula Media</h1>
+        <a href="">Home</a>
+        <a class="menu-heading" href="#">Cinema</a>
+        <div class="sub-menu">
+          <a href="search">Search</a>
+          <a href="movies">Movies</a>
+          <a href="shows">Shows</a>
+        </div>
+        <a class="menu-heading" href="#">Music</a>
+        <div class="sub-menu">
+          <a href="songs">Songs</a>
+          <a href="playlists">Playlists</a>
+        </div>
+        <a href="about">About</a>
+      </div>
+    </header>
+  </div>
+  <!-- Search bar and button -->
+  <div class="searchBar">
+    <form class="searchForm">
+      <input type="text" class="searchInput" placeholder="Enter Media Search">
+      <button class="searchButton">Search</button>
+    </form>
+  </div>
+    <!-- Trending Movies section -->
+<div class="now-playing-container">
+  <h2>Trending Movies</h2>
+  <div class="now-playing-movies" id="trending-movies">
+    <!-- Movies will be dynamically added here -->
+  </div>
+</div>
+<!-- Trending TV Shows section -->
+<div class="now-playing-container">
+  <h2>Trending TV Shows</h2>
+  <div class="now-playing-movies" id="trending-tv-shows">
+    <!-- TV shows will be dynamically added here -->
+  </div>
+</div>
+  </div>
+  <script>
+  // Your API key
+  const apiKey = "0ae47aadd2d85a324c238972cedab662";
+
+  // Function to fetch and display Now Playing movies
+  async function fetchNowPlayingMovies() {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`);
+    const data = await response.json();
+
+    const nowPlayingMovies = data.results;
+    const nowPlayingMoviesContainer = document.getElementById("now-playing-movies");
+
+    nowPlayingMovies.forEach((movie) => {
+      const movieBox = document.createElement("div");
+      movieBox.classList.add("movie-box");
+      movieBox.innerHTML = `
+        <img src="https://image.tmdb.org/t/p/w185${movie.poster_path}" alt="${movie.title}">
+        <h3>${movie.title}</h3>
+        <p>${movie.release_date.slice(0, 4)} • ${movie.vote_average} / 10 &#9733;</p>
+      `;
+
+      movieBox.addEventListener("mouseover", () => {
+        movieBox.style.transform = "scale(1.05)";
+      });
+
+      movieBox.addEventListener("mouseout", () => {
+        movieBox.style.transform = "scale(1)";
+      });
+
+      nowPlayingMoviesContainer.appendChild(movieBox);
+    });
+  }
+
+  // Call the function to fetch and display Now Playing movies
+  fetchNowPlayingMovies();
+</script>
+<script>
+  // Function to fetch and display Trending movies
+  async function fetchTrendingMovies() {
+    const response = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`);
+    const data = await response.json();
+
+    const trendingMovies = data.results;
+    const trendingMoviesContainer = document.getElementById("trending-movies");
+
+    trendingMovies.forEach((movie) => {
+      const movieBox = document.createElement("div");
+      movieBox.classList.add("movie-box");
+      movieBox.innerHTML = `
+        <img src="https://image.tmdb.org/t/p/w185${movie.poster_path}" alt="${movie.title}">
+        <h3>${movie.title}</h3>
+        <p>${movie.release_date.slice(0, 4)} • ${movie.vote_average} / 10 &#9733;</p>
+      `;
+
+      movieBox.addEventListener("mouseover", () => {
+        movieBox.style.transform = "scale(1.05)";
+      });
+
+      movieBox.addEventListener("mouseout", () => {
+        movieBox.style.transform = "scale(1)";
+      });
+
+      trendingMoviesContainer.appendChild(movieBox);
+    });
+  }
+
+  // Call the function to fetch and display Trending movies
+  fetchTrendingMovies();
+</script>
+<script>
+  // Function to fetch and display Now Playing TV Shows
+  async function fetchNowPlayingTVShows() {
+    const response = await fetch(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}`);
+    const data = await response.json();
+
+    const nowPlayingTVShows = data.results;
+    const nowPlayingTVShowsContainer = document.getElementById("now-playing-tv-shows");
+
+    nowPlayingTVShows.forEach((tvShow) => {
+      const tvShowBox = document.createElement("div");
+      tvShowBox.classList.add("movie-box");
+      tvShowBox.innerHTML = `
+        <img src="https://image.tmdb.org/t/p/w185${tvShow.poster_path}" alt="${tvShow.name}">
+        <h3>${tvShow.name}</h3>
+        <p>${tvShow.first_air_date.slice(0, 4)} • ${tvShow.vote_average} / 10 &#9733;</p>
+      `;
+
+      tvShowBox.addEventListener("mouseover", () => {
+        tvShowBox.style.transform = "scale(1.05)";
+      });
+
+      tvShowBox.addEventListener("mouseout", () => {
+        tvShowBox.style.transform = "scale(1)";
+      });
+
+      nowPlayingTVShowsContainer.appendChild(tvShowBox);
+    });
+  }
+
+  // Call the function to fetch and display Now Playing TV Shows
+  fetchNowPlayingTVShows();
+</script>
+<script>
+  // Function to fetch and display Trending TV Shows
+  async function fetchTrendingTVShows() {
+    const response = await fetch(`https://api.themoviedb.org/3/trending/tv/week?api_key=${apiKey}`);
+    const data = await response.json();
+
+    const trendingTVShows = data.results;
+    const trendingTVShowsContainer = document.getElementById("trending-tv-shows");
+
+    trendingTVShows.forEach((tvShow) => {
+      const tvShowBox = document.createElement("div");
+      tvShowBox.classList.add("movie-box");
+      tvShowBox.innerHTML = `
+        <img src="https://image.tmdb.org/t/p/w185${tvShow.poster_path}" alt="${tvShow.name}">
+        <h3>${tvShow.name}</h3>
+        <p>${tvShow.first_air_date.slice(0, 4)} • ${tvShow.vote_average} / 10 &#9733;</p>
+      `;
+
+      tvShowBox.addEventListener("mouseover", () => {
+        tvShowBox.style.transform = "scale(1.05)";
+      });
+
+      tvShowBox.addEventListener("mouseout", () => {
+        tvShowBox.style.transform = "scale(1)";
+      });
+
+      trendingTVShowsContainer.appendChild(tvShowBox);
+    });
+  }
+
+  // Call the function to fetch and display Trending TV Shows
+  fetchTrendingTVShows();
+</script>
+<script>
+  var containerState = 0; // navbar is closed
+  function open_closeNav(x) {
+    if (containerState === 0) {
+      x.classList.toggle("change");
+      containerState = 1;
+      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("description").style.marginLeft = "250px";
+      document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    } else {
+      containerState = 0;
+      x.classList.toggle("change");
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("description").style.marginLeft = "0";
+      document.body.style.backgroundColor = "white";
+    }
+  }
+
+  var menuHeadings = document.getElementsByClassName("menu-heading");
+    for (var i = 0; i < menuHeadings.length; i++) {
+      menuHeadings[i].addEventListener("click", function () {
+        this.nextElementSibling.classList.toggle("show-sub-menu");
+        // Remove the "selected" class from all menu items
+        var menuItems = document.querySelectorAll(".sidenav a");
+        menuItems.forEach(function (item) {
+          item.classList.remove("selected");
+        });
+        // Add the "selected" class to the clicked menu item
+        this.classList.add("selected");
+      });
+    }
+
+    // Highlight the current menu item based on the URL
+    var currentPage = window.location.pathname.split("/").pop();
+    var menuItems = document.querySelectorAll(".sidenav a");
+    menuItems.forEach(function (item) {
+      var href = item.getAttribute("href").split("/").pop();
+      if (currentPage === href) {
+        item.classList.add("selected");
+      }
+    });
+</script>
+</body>
+</html>
