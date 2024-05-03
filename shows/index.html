@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <style>
+      /* Default */
+      html {
+        height: 100%;
+      }
+      header {
+        display: block;
+        text-align: center;
+      }
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: background 0.5s;
+        background-color: #151728;
+      }
+      /* .bg {
+      background: linear-gradient(to right,
+          rgba(17, 17, 17, 1),
+          rgba(17, 17, 17, 0.7),
+          rgba(17, 17, 17, 0.1),
+          rgba(17, 17, 17, 1)),
+        url("https://wallpapercave.com/wp/wp3189881.jpg");
+      min-height: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    } */
+      .logo {
+        font-family: 'Quicksand', sans-serif;
+        color: #f0f0f0;
+        text-align: center;
+        margin: 5px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .container {
+        cursor: pointer;
+        position: absolute;
+        z-index: 10;
+        text-align: center;
+        display: inline-block;
+        left: 15px;
+      }
+      .bar1,
+      .bar2,
+      .bar3 {
+        width: 25px;
+        height: 3px;
+        background-color: #f0f0f0;
+        margin: 8px 0;
+        transition: 0.4s;
+      }
+      .change .bar1 {
+        transform: translate(-11px, 11px) rotate(90deg);
+      }
+      .change .bar2 {
+        transform: translate(0, 0) rotate(90deg);
+      }
+      .change .bar3 {
+        transform: translate(11px, -11px) rotate(90deg);
+      }
+      .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #1D2021;
+        opacity: 1;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        display: flex;
+        flex-direction: column;
+      }
+      .sidenav a {
+        padding: 10px 0;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin: 0;
+      }
+      .sidenav a:hover {
+        color: #f1f1f1;
+      }
+      .sidenav a.selected {
+        color: #f1f1f1;
+      }
+      .genre,
+      .year,
+      .director,
+      .writer {
+        font-size: 30px;
+        font-family: 'Quicksand', sans-serif;
+        color: #f0f0f0;
+        padding: 2px;
+        display: inline;
+      }
+      aside {
+        display: block;
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        width: 200px;
+        padding: 5px;
+        text-align: center;
+      }
+      .asidedetails {
+        padding: 2px;
+        color: #f0f0f0;
+        margin: 4px;
+      }
+      .description {
+        margin: 10px;
+        left: 25px;
+        width: 700px;
+        padding: 5px;
+        text-align: left;
+        display: block;
+        position: fixed;
+      }
+      .showname {
+        font-size: 60px;
+        margin: 10px;
+        color: #f0f0f0;
+        font-family: 'Quicksand', sans-serif;
+      }
+      .showdescription {
+        font-size: 20px;
+        width: 600px;
+        margin: 5px;
+        color: #f0f0f0;
+      }
+      button {
+        background: none;
+        border-radius: 20px;
+        color: #f0f0f0;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 42px 60px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #f0f0f0;
+        color: black;
+      }
+      .searchBar {
+        text-align: center;
+        padding: 20px;
+        margin-top: 20px;
+      }
+      form {
+        display: inline-block;
+      }
+      input[type="text"] {
+        flex: 1;
+        width: 100px;
+        padding: 10px;
+        margin-right: 5px;
+        border: 1.5px solid #515151;
+        border-radius: 5px;
+      }
+      .searchButton {
+        display: inline-block;
+        background-color: none;
+        border: 2px solid #f0f0f0;
+        cursor: pointer;
+        padding: 10px;
+        margin: 0;
+        border: 0px solid #f0f0f0;
+        border-radius: 20px;
+        color: #f0f0f0;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        transition-duration: 0.4s;
+      }
+      /* Slideshow container styles */
+      .slideshow-container {
+        position: relative;
+        max-width: 100%;
+        padding: 0;
+        text-align: center;
+        background-color: #151728;
+        /* Dark background color */
+        overflow: hidden;
+        /* Prevent content from being cut off */
+      }
+      /* Add styles for the slide background */
+      .slide-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        filter: blur(8px);
+        /* Optional: Apply a blur effect to the backdrop */
+        z-index: -1;
+        /* Place the background behind the content */
+      }
+      /* Update styles for the show slide container */
+      .show-slide {
+        display: inline-block;
+        width: 70%;
+        /* Adjust the width to make the slideshow larger */
+        max-width: 1200px;
+        /* Limit the maximum width to improve responsiveness */
+        height: 60vh;
+        text-align: left;
+        padding: 0;
+        box-sizing: border-box;
+        color: #f0f0f0;
+        border-radius: 10px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+        /* Ensure content within the slide is not visible beyond its boundaries */
+      }
+      /* Slide content container styles */
+      .slide-content {
+        padding: 20px;
+        height: 100%;
+        /* Ensure content takes full height */
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+        /* Prevent content from overflowing */
+        background-size: cover;
+        /* Ensure the background image covers the visible area */
+        background-position: center;
+        /* Center the background image */
+        position: relative;
+      }
+      /* Add a pseudo-element for the vignette effect */
+      .slide-content::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        /* Adjust the width to make the vignette effect reach further right */
+        height: 100%;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, transparent 90%);
+        z-index: 1;
+        /* Ensure the vignette is on top of the background image */
+      }
+      /* show name styles */
+      .show-name {
+        max-width: 50%;
+        font-size: 30px;
+        /* Increase font size */
+        margin: 0;
+        color: #ffffff;
+        /* Customize the text color */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        /* Add text shadow for visibility */
+        z-index: 2;
+        position: relative;
+      }
+      /* show release date styles */
+      .show-release-date {
+        max-width: 50%;
+        font-size: 20px;
+        /* Increase font size */
+        margin: 5px 0;
+        color: #ffffff;
+        /* Customize the text color */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        /* Add text shadow for visibility */
+        z-index: 2;
+        position: relative;
+      }
+      /* show genres styles */
+      .show-genres {
+        font-size: 20px;
+        /* Increase font size */
+        margin: 5px 0;
+        max-width: 50%;
+        color: #f0f0f0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        /* Add text shadow for visibility */
+        z-index: 2;
+        position: relative;
+        display: inline-block;
+        /* Display genres inline */
+        padding: 10px 20px;
+        /* Add padding to create a rounded outline */
+        border-radius: 20px;
+        /* Add rounded outline */
+        background-color: rgba(255, 255, 255, 0.2);
+        /* Add a white background with opacity */
+      }
+      /* show description styles */
+      .show-description {
+        font-size: 20px;
+        /* Increase font size */
+        margin: 10px 0;
+        max-width: 50%;
+        overflow-y: auto;
+        color: #ffffff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        z-index: 2;
+        position: relative;
+      }
+      /* show rating styles */
+      .show-rating {
+        font-size: 24px;
+        /* Increase font size */
+        margin: 10px 0;
+        /* Adjust margin for spacing */
+        color: #ffcc00;
+        /* Yellow for stars */
+        z-index: 2;
+        position: relative;
+      }
+      /* show rating star styles */
+      .show-rating::before {
+        content: "\2605";
+        /* Unicode star character */
+        font-size: 24px;
+        /* Increase star size */
+        margin-right: 10px;
+        /* Add spacing between star and rating */
+      }
+      /* Style the play button */
+      .play-button {
+        font-size: 24px;
+        /* Increase font size */
+        margin: 10px 0;
+        max-width: 50%;
+        color: #ffffff;
+        /* Customize the text color */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        /* Add text shadow for visibility */
+        z-index: 2;
+        position: relative;
+        width: 150px;
+      }
+      /* Style the button on hover */
+      .play-button:hover {
+        background-color: #fdfdfd;
+        /* Change the background color on hover */
+      }
+      /* Center the button in the slide content */
+      .slide-content {
+        position: relative;
+      }
+      /* Adjust the z-index of other elements as needed */
+      .show-name,
+      .show-release-date,
+      .show-runtime,
+      .show-genres,
+      .show-description,
+      .show-rating {
+        z-index: 3;
+      }
+      /* Ensure the button is above the pseudo-element for the vignette effect */
+      .slide-content::before {
+        z-index: 1;
+      }
+      /* Search bar and button */
+      .searchBar {
+        text-align: center;
+        padding: 20px;
+        margin-top: 20px;
+        /* Add margin to separate the slideshow and search bar */
+      }
+      /* Media */
+      @media only screen and (max-width: 900px) {
+        body {
+          display: block;
+        }
+        .logo {
+          font-family: 'Quicksand', sans-serif;
+          font-size: 25px;
+        }
+        .bg {
+          background: linear-gradient(to bottom,
+              rgba(17, 17, 17, 0.1),
+              rgba(17, 17, 17, 0.7),
+              rgba(17, 17, 17, 0.9)),
+            url(https://wallpapercave.com/wp/wp3189881.jpg);
+          background-position: center;
+          min-height: 100%;
+          background-size: cover;
+        }
+        .container {
+          display: inline-block;
+          cursor: pointer;
+          position: absolute;
+          z-index: 10;
+        }
+        .bar1,
+        .bar2,
+        .bar3 {
+          width: 25px;
+          height: 2px;
+          background-color: #f0f0f0;
+          margin: 6px 5px;
+          transition: 0.4s;
+        }
+        .change .bar1 {
+          transform: translate(-8px, 8px) rotate(90deg);
+        }
+        .change .bar2 {
+          transform: translate(0, 0) rotate(90deg);
+        }
+        .change .bar3 {
+          transform: translate(8px, -8px) rotate(90deg);
+        }
+        .sidenav {
+          padding-top: 15px;
+        }
+        .sidenav a {
+          font-size: 18px;
+        }
+        .director,
+        .writer,
+        .genre,
+        .year,
+        .asidedetails,
+        aside {
+          display: none;
+        }
+        .description {
+          text-align: center;
+          left: 0;
+          right: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          top: initial;
+          text-align: center;
+          font-size: 25px;
+          position: fixed;
+          margin: 0 auto;
+          padding: 2px;
+          bottom: 0px;
+        }
+        .showname {
+          font-size: 25px;
+          text-align: center;
+          left: 15px;
+          margin-top: 10px;
+        }
+        .showdescription {
+          max-width: 100%;
+          padding: 0 20px;
+          box-sizing: border-box;
+          text-align: justify;
+          margin: 5px 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          font-size: 16px;
+          text-align: center;
+        }
+        .button-container {
+          display: flex;
+          justify-content: center;
+          text-align: center;
+          margin-top: 15px;
+          margin-bottom: 20px;
+        }
+        .button-container button {
+          display: inline-block;
+          width: auto;
+          margin: 0px 15px;
+          border: 2px solid #f0f0f0;
+          border-radius: 20px;
+          padding: 10px;
+          text-align: center;
+          text-decoration: none;
+          font-size: 16px;
+          transition-duration: 0.4s;
+          cursor: pointer;
+        }
+      }
+      .menu-heading {
+        padding: 8px 0;
+        /* Adjust vertical padding */
+        text-decoration: none;
+        font-size: 20px;
+        color: #f0f0f0;
+        display: block;
+        transition: 0.3s;
+        margin: 10px 0;
+        /* Add more margin between headings */
+        cursor: pointer;
+      }
+      .sub-menu {
+        padding-left: 40px;
+        display: none;
+        flex-direction: column;
+      }
+      .sub-menu.show-sub-menu {
+        display: block;
+      }
+      .sub-menu a {
+        text-decoration: none;
+        font-size: 16px;
+        /* Adjust font size for sub-menu items */
+        color: #818181;
+        margin: 0;
+        padding-top: 8px;
+        padding-left: 20px;
+        border-radius: 15px;
+        /* Add rounded corners */
+        transition: background-color 0.3s, color 0.3s;
+        /* Add transition effect */
+        width: 85%;
+      }
+      .sub-menu a:hover {
+        background-color: #151728;
+        color: #f1f1f1;
+      }
+      .now-playing-container {
+        padding: 20px;
+        color: white;
+      }
+      .now-playing-shows {
+        display: flex;
+        overflow-x: scroll;
+        padding-bottom: 5px;
+      }
+      .show-box {
+        flex: 0 0 auto;
+        margin-right: 20px;
+        transition: transform 0.3s;
+        width: 200px;
+        overflow: none;
+        transform-origin: bottom;
+        margin-top: 30px;
+        margin-left: 15px;
+      }
+      .show-box h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* You can adjust the maximum width as needed */
+}
+/* Rounded corners for show posters */
+.show-box img {
+  border-radius: 10px;
+}
+
+/* Add a glow effect on hover */
+.show-box img:hover {
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+      .searchBar {
+        text-align: center;
+        padding: 20px;
+        margin-top: 2%;
+        margin-bottom: 1%;
+        /* Add margin between search section and Now Playing section */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .searchForm {
+        align-items: center;
+        height: 100%;
+        width: 60%;
+        /* Set the width to 60% of the parent element (searchBar) */
+      }
+      .searchInput {
+        width: 80% !important;
+        /* Set the width to 100% to fill the available space */
+        padding: 10px;
+        border: 2px solid #f0f0f0;
+        border-radius: 5px;
+        font-size: 22px;
+        background-color: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+      }
+      .searchButton {
+        display: inline-block;
+        background-color: #2b2e4a;
+        color: #c7c7c7;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+        color: #f0f0f0;
+        font-size: 22px;
+        transition: background-color 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg">
+      <header>
+        <div class="container" onclick="open_closeNav(this)">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </div>
+        <div id="mySidenav" class="sidenav">
+          <h1 class="logo" onclick="location.href='https://nebula.zya.me'">Nebula Media</h1>
+          <a href="./">Home</a>
+          <a class="menu-heading" href="#">Cinema</a>
+          <div class="sub-menu">
+            <a href="search">Search</a>
+            <a href="movies">Movies</a>
+            <a href="shows">Shows</a>
+          </div>
+          <a class="menu-heading" href="#">Music</a>
+          <div class="sub-menu">
+            <a href="songs">Songs</a>
+            <a href="playlists">Playlists</a>
+          </div>
+          <a href="about">About</a>
+        </div>
+      </header>
+    </div>
+    <div class="slideshow-container">
+      <div class="show-slide">
+        <div class="slide-background"></div>
+        <div class="slide-content">
+          <h3 class="show-name"></h3>
+          <p class="show-release-date"></p>
+          <div class="show-genres">
+          </div>
+          <p class="show-rating"></p>
+          <p class="show-description"></p>
+        </div>
+      </div>
+    </div>
+    <div class="searchBar">
+      <form class="searchForm">
+        <input type="text" class="searchInput" placeholder="Search show Name">
+        <button class="searchButton">Search</button>
+      </form>
+    </div>
+    <div class="now-playing-container">
+      <h2>Trending shows</h2>
+      <div class="now-playing-shows" id="trending-shows">
+      </div>
+    </div>
+    <div class="now-playing-container">
+      <h2>Now Playing shows</h2>
+      <div class="now-playing-shows" id="now-playing-shows">
+      </div>
+    </div>
+    <div class="now-playing-container">
+      <h2>Top Rated shows</h2>
+      <div class="now-playing-shows" id="top-rated-shows">
+      </div>
+    </div>
+    <script>
+  const apiKey = "0ae47aadd2d85a324c238972cedab662";
+  
+  // Function to fetch and display Now Playing shows
+  async function fetchNowPlayingshows() {
+    const response = await fetch(`https://api.themoviedb.org/3/tv/airing_today?api_key=${apiKey}`);
+    const data = await response.json();
+    const nowPlayingshows = data.results;
+    const nowPlayingshowsContainer = document.getElementById("now-playing-shows");
+    
+    nowPlayingshows.forEach((show) => {
+      const showBox = document.createElement("div");
+      showBox.classList.add("show-box");
+      showBox.innerHTML = `
+        <a class="posterlink" href="https://nebula.zya.me/sinfo?id=${show.id}" target="_blank">
+          <img class="poster" src="https://image.tmdb.org/t/p/w185${show.poster_path}" alt="${show.name}">
+        </a>
+          <h3>${show.name}</h3>
+          <p>${show.first_air_date.slice(0, 4)} • ${show.vote_average} / 10 &#9733;</p>
+      `;
+      showBox.addEventListener("mouseover", () => {
+        showBox.style.transform = "scale(1.05)";
+      });
+      showBox.addEventListener("mouseout", () => {
+        showBox.style.transform = "scale(1)";
+      });
+      nowPlayingshowsContainer.appendChild(showBox);
+    });
+  }
+
+  fetchNowPlayingshows();
+</script>
+    <script>
+      // Function to fetch and display Trending shows
+      async function fetchTrendingshows() {
+        const response = await fetch(`https://api.themoviedb.org/3/trending/tv/week?api_key=${apiKey}`);
+        const data = await response.json();
+        const trendingshows = data.results;
+        const trendingshowsContainer = document.getElementById("trending-shows");
+        trendingshows.forEach((show) => {
+          const showBox = document.createElement("div");
+          showBox.classList.add("show-box");
+          showBox.innerHTML = `
+          <a class="posterlink" href="https://nebula.zya.me/sinfo?id=${show.id}" target="_blank">
+          <img class="poster" src="https://image.tmdb.org/t/p/w185${show.poster_path}" alt="${show.name}">
+        </a>
+          <h3>${show.name}</h3>
+          <p>${show.first_air_date.slice(0, 4)} • ${show.vote_average} / 10 &#9733;</p>
+      `;
+          showBox.addEventListener("mouseover", () => {
+            showBox.style.transform = "scale(1.05)";
+          });
+          showBox.addEventListener("mouseout", () => {
+            showBox.style.transform = "scale(1)";
+          });
+          trendingshowsContainer.appendChild(showBox);
+        });
+      }
+      fetchTrendingshows();
+    </script>
+    <script>
+      // Function to fetch and display Top Rated shows
+      async function fetchTopRatedshows() {
+        const response = await fetch(`https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}`);
+        const data = await response.json();
+        const topRatedshows = data.results;
+        const topRatedshowsContainer = document.getElementById("top-rated-shows");
+        topRatedshows.forEach((show) => {
+          const showBox = document.createElement("div");
+          showBox.classList.add("show-box");
+          showBox.innerHTML = `
+          <a class="posterlink" href="https://nebula.zya.me/sinfo?id=${show.id}" target="_blank">
+          <img class="poster" src="https://image.tmdb.org/t/p/w185${show.poster_path}" alt="${show.name}">
+        </a>
+          <h3>${show.name}</h3>
+          <p>${show.first_air_date.slice(0, 4)} • ${show.vote_average} / 10 &#9733;</p>
+      `;
+          showBox.addEventListener("mouseover", () => {
+            showBox.style.transform = "scale(1.05)";
+          });
+          showBox.addEventListener("mouseout", () => {
+            showBox.style.transform = "scale(1)";
+          });
+          topRatedshowsContainer.appendChild(showBox);
+        });
+      }
+      fetchTopRatedshows();
+    </script>
+    <script>
+      var containerState = 0; // navbar is closed
+      function open_closeNav(x) {
+        if (containerState === 0) {
+          x.classList.toggle("change");
+          containerState = 1;
+          document.getElementById("mySidenav").style.width = "250px";
+          document.getElementById("description").style.marginLeft = "250px";
+          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        } else {
+          containerState = 0;
+          x.classList.toggle("change");
+          document.getElementById("mySidenav").style.width = "0";
+          document.getElementById("description").style.marginLeft = "0";
+          document.body.style.backgroundColor = "white";
+        }
+      }
+      var menuHeadings = document.getElementsByClassName("menu-heading");
+      for (var i = 0; i < menuHeadings.length; i++) {
+        menuHeadings[i].addEventListener("click", function() {
+          this.nextElementSibling.classList.toggle("show-sub-menu");
+          var menuItems = document.querySelectorAll(".sidenav a");
+          menuItems.forEach(function(item) {
+            item.classList.remove("selected");
+          });
+          this.classList.add("selected");
+        });
+      }
+      var currentPage = window.location.pathname.split("/").pop();
+      var menuItems = document.querySelectorAll(".sidenav a");
+      menuItems.forEach(function(item) {
+        var href = item.getAttribute("href").split("/").pop();
+        if (currentPage === href) {
+          item.classList.add("selected");
+        }
+      });
+    </script>
+    <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const apiKey = "0ae47aadd2d85a324c238972cedab662";
+    let slideIndex = -1;
+    const slides = document.getElementsByClassName("show-slide");
+
+    // Define genre mappings for TV shows
+    const genreMappings = {
+      10759: "Action, Adventure",
+      16: "Animation",
+      35: "Comedy",
+      80: "Crime",
+      99: "Documentary",
+      18: "Drama",
+      10751: "Family",
+      10762: "Kids",
+      9648: "Mystery",
+      10763: "News",
+      10764: "Reality",
+      10765: "Sci-Fi, Fantasy",
+      10766: "Soap",
+      10767: "Talk",
+      10768: "War, Politics",
+    };
+
+    function showSlide(index) {
+      if (index >= slides.length) {
+        slideIndex = 0;
+      }
+      if (index < 0) {
+        slideIndex = slides.length - 1;
+      }
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slides[slideIndex].style.display = "block";
+    }
+
+    function nextSlide() {
+      slideIndex++;
+      showSlide(slideIndex);
+    }
+
+    function prevSlide() {
+      slideIndex--;
+      showSlide(slideIndex);
+    }
+
+    showSlide(slideIndex);
+    setInterval(nextSlide, 10000);
+
+    async function fetchAndPopulateTrendingShows() {
+      const response = await fetch(`https://api.themoviedb.org/3/trending/tv/week?api_key=${apiKey}`);
+      const data = await response.json();
+      const trendingShows = data.results;
+      const slideshowContainer = document.querySelector(".slideshow-container");
+
+      trendingShows.forEach((show) => {
+        const showSlide = document.createElement("div");
+        showSlide.classList.add("show-slide");
+        showSlide.innerHTML = `
+          <div class="slide-content">
+            <h3 class="show-name">${show.name}</h3>
+            <p class="show-release-date">Release Date: ${show.first_air_date}</p>
+            <p class="show-runtime"></p>
+            <p class="show-genres">${getGenres(show.genre_ids)}</p>
+            <p class="show-description">${show.overview}</p>
+            <p class="show-rating">${show.vote_average.toFixed(1)} / 10</p>
+            <button class="play-button" onclick="openPlayer(${show.id})">Watch Now</button>
+          </div>
+        `;
+
+        showSlide.querySelector(".slide-content").style.backgroundImage = `url(https://image.tmdb.org/t/p/original${show.backdrop_path})`;
+        slideshowContainer.appendChild(showSlide);
+      });
+
+      nextSlide();
+    }
+
+    fetchAndPopulateTrendingShows();
+
+    function getGenres(genreIds) {
+      const genreNames = genreIds.map((genreId) => {
+        const genreName = genreMappings[genreId] || genreId;
+        return genreName;
+      });
+      return genreNames.join(", ");
+    }
+
+    function openPlayer(showId) {
+      const playerUrl = `https://nebula.zya.me/player?mt=${showId}&server=1`;
+      window.open(playerUrl, '_blank');
+    }
+  });
+</script>
+  </body>
+</html>
