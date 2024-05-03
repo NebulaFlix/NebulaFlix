@@ -827,7 +827,7 @@
           showSlide(slideIndex);
         }
         showSlide(slideIndex);
-        setInterval(nextSlide, 7000);
+        setInterval(nextSlide, 1000);
         // Function to fetch and populate the slideshow with trending movies
         async function fetchAndPopulateTrendingMovies() {
           const response = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`);
