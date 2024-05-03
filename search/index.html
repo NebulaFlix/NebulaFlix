@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        header {
+            display: block;
+            text-align: center;
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            transition: background 0.5s;
+            background-color: #151728;
+        }
+        
+        .logo {
+        font-family: 'Quicksand', sans-serif;
+        color: #f0f0f0;
+        text-align: center;
+        margin: 5px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .container {
+        cursor: pointer;
+        position: absolute;
+        z-index: 10;
+        text-align: center;
+        display: inline-block;
+        left: 15px;
+      }
+      .bar1,
+      .bar2,
+      .bar3 {
+        width: 25px;
+        height: 3px;
+        background-color: #f0f0f0;
+        margin: 8px 0;
+        transition: 0.4s;
+      }
+      .change .bar1 {
+        transform: translate(-11px, 11px) rotate(90deg);
+      }
+      .change .bar2 {
+        transform: translate(0, 0) rotate(90deg);
+      }
+      .change .bar3 {
+        transform: translate(11px, -11px) rotate(90deg);
+      }
+      .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #1D2021;
+        opacity: 1;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        display: flex;
+        flex-direction: column;
+      }
+      .sidenav a {
+        padding: 10px 0;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin: 0;
+      }
+      .sidenav a:hover {
+        color: #f1f1f1;
+      }
+      .sidenav a.selected {
+        color: #f1f1f1;
+      }
+      
+      .menu-heading {
+        padding: 8px 0; /* Adjust vertical padding */
+        text-decoration: none;
+        font-size: 20px;
+        color: #f0f0f0;
+        display: block;
+        transition: 0.3s;
+        margin: 10px 0; /* Add more margin between headings */
+        cursor: pointer;
+    }
+
+    .sub-menu {
+        padding-left: 40px;
+        display: none;
+        flex-direction: column;
+    }
+
+    .sub-menu.show-sub-menu {
+        display: block;
+    }
+
+    .sub-menu a {
+        text-decoration: none;
+        font-size: 16px; /* Adjust font size for sub-menu items */
+        color: #818181;
+        margin: 0;
+        padding-top: 8px;
+        padding-left: 20px;
+        border-radius: 15px; /* Add rounded corners */
+        transition: background-color 0.3s, color 0.3s; /* Add transition effect */
+        width: 85%;
+    }
+
+    .sub-menu a:hover {
+        background-color: #151728;
+        color: #f1f1f1;
+    }
+
+        .searchBar {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            width: 100px;
+            padding: 10px;
+            margin-right: 5px;
+            border: 1.5px solid #515151;
+            border-radius: 5px;
+        }
+
+        .searchButton {
+            display: inline-block;
+            background-color: none;
+            border: 2px solid #f0f0f0;
+            cursor: pointer;
+            padding: 10px;
+            margin: 0;
+            border: 0px solid #f0f0f0;
+            border-radius: 20px;
+            color: #f0f0f0;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition-duration: 0.4s;
+        }
+
+        /* Add styles for the search results */
+        .search-results {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .search-result {
+            width: 190px;
+            margin: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            color: #f0f0f0;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .search-result:hover {
+            transform: scale(1.05);
+        }
+
+        .search-result img {
+            width: 90%;
+            height: 70%;
+            border-radius: 10px;
+        }
+
+        .search-result .result-title {
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            white-space: nowrap; /* Prevent title from wrapping */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Add ellipsis for overflow */
+        }
+
+        .search-result .result-description {
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="bg">
+      <header>
+        <div class="container" onclick="open_closeNav(this)">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </div>
+        <div id="mySidenav" class="sidenav">
+          <h1 class="logo" onclick="location.href='https://nebula.zya.me'">Nebula Media</h1>
+          <a href="./">Home</a>
+          <a class="menu-heading" href="#">Cinema</a>
+          <div class="sub-menu">
+            <a href="search">Search</a>
+            <a href="movies">Movies</a>
+            <a href="shows">Shows</a>
+          </div>
+          <a class="menu-heading" href="#">Music</a>
+          <div class="sub-menu">
+            <a href="songs">Songs</a>
+            <a href="playlists">Playlists</a>
+          </div>
+          <a href="about">About</a>
+        </div>
+      </header>
+    </div>
+    <div class="searchBar">
+        <form class="searchForm" onsubmit="searchMedia(); return false;">
+            <input type="text" class="searchInput" id="searchInput" placeholder="Search Movie or TV Show Title">
+            <button class="searchButton" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="search-results" id="searchResults">
+    </div>
+<script>
+    const apiKey = "0ae47aadd2d85a324c238972cedab662";
+    let page = 1; // Initialize the page number
+    const displayedResults = new Set(); // Track displayed TMDB IDs
+    let isLoading = false; // Flag to prevent multiple simultaneous requests
+
+    // Function to fetch and display search results
+    async function searchMedia() {
+        const searchInput = document.getElementById("searchInput");
+        const inputValue = searchInput.value;
+
+        if (!inputValue || isLoading) {
+            return; // Do nothing if the input value is empty or a request is already in progress
+        }
+
+        isLoading = true; // Set the flag to indicate a request is in progress
+
+        const response = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${inputValue}&page=${page}`);
+        const data = await response.json();
+        const searchResultsContainer = document.getElementById("searchResults");
+        const loadingIndicator = document.getElementById("loadingIndicator");
+
+        data.results.forEach(async (media) => {
+            // Check if this TMDB ID has already been displayed
+            if (!displayedResults.has(media.id)) {
+                const searchResult = document.createElement("div");
+                searchResult.classList.add("search-result");
+
+                const mediaType = media.media_type === "movie" ? "Movie" : "TV Show";
+                const title = media.title || media.name;
+                const posterPath = media.poster_path
+                    ? `https://image.tmdb.org/t/p/w185${media.poster_path}`
+                    : "https://via.placeholder.com/185x278?text=No+Image";
+
+                // Fetch additional information for movies or TV shows
+                const detailsResponse = await fetch(`https://api.themoviedb.org/3/${media.media_type}/${media.id}?api_key=${apiKey}`);
+                const detailsData = await detailsResponse.json();
+
+                const releaseDate = detailsData.release_date || detailsData.first_air_date || "N/A";
+                const rating = detailsData.vote_average || "N/A";
+
+                // Round the rating to the nearest 0.1
+                const roundedRating = Math.round(rating * 10) / 10;
+
+                searchResult.innerHTML = `
+    <a href="${mediaType === 'Movie' ? 'https://nebula.zya.me/minfo?id=' : 'https://nebula.zya.me/sinfo?id='}${media.id}" target="_blank">
+        <img src="${posterPath}" alt="${title}">
+    </a>
+    <h3>${title}</h3>
+    <p>${releaseDate.slice(0, 4)} • ${roundedRating}/10 &#9733;</p>
+`;
+
+                searchResultsContainer.appendChild(searchResult);
+
+                // Add the TMDB ID to the displayed set
+                displayedResults.add(media.id);
+            }
+        });
+
+        // Increment the page number for the next request
+        page++;
+
+        // Hide the loading indicator if there are no more pages
+        if (page > data.total_pages) {
+            loadingIndicator.style.display = "none";
+        }
+
+        isLoading = false; // Reset the flag when the request is complete
+    }
+
+    // Function to check if the user has scrolled to the bottom
+    function checkScroll() {
+        const windowHeight = window.innerHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+
+        if (windowHeight + scrollTop >= scrollHeight - 200) {
+            // Load more results when the user is near the bottom
+            searchMedia();
+        }
+    }
+
+    // Add an event listener to check for scroll events
+    window.addEventListener("scroll", checkScroll);
+
+    // Initial search when the page loads
+    searchMedia();
+</script>
+
+<script>
+  var containerState = 0; // navbar is closed
+  function open_closeNav(x) {
+    if (containerState === 0) {
+      x.classList.toggle("change");
+      containerState = 1;
+      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("description").style.marginLeft = "250px";
+      document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    } else {
+      containerState = 0;
+      x.classList.toggle("change");
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("description").style.marginLeft = "0";
+      document.body.style.backgroundColor = "white";
+    }
+  }
+
+  var menuHeadings = document.getElementsByClassName("menu-heading");
+    for (var i = 0; i < menuHeadings.length; i++) {
+      menuHeadings[i].addEventListener("click", function () {
+        this.nextElementSibling.classList.toggle("show-sub-menu");
+        // Remove the "selected" class from all menu items
+        var menuItems = document.querySelectorAll(".sidenav a");
+        menuItems.forEach(function (item) {
+          item.classList.remove("selected");
+        });
+        // Add the "selected" class to the clicked menu item
+        this.classList.add("selected");
+      });
+    }
+
+    // Highlight the current menu item based on the URL
+    var currentPage = window.location.pathname.split("/").pop();
+    var menuItems = document.querySelectorAll(".sidenav a");
+    menuItems.forEach(function (item) {
+      var href = item.getAttribute("href").split("/").pop();
+      if (currentPage === href) {
+        item.classList.add("selected");
+      }
+    });
+</script>
+</body>
+</html>
