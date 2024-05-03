@@ -17,7 +17,7 @@ Nebula Media is a **free** and **user-friendly** streaming website where you can
 
 ## Getting Started
 
-To start using Nebula Media, simply visit our website: [Nebula Media](https://nebula.zya.me). You can browse through our extensive collection of movies and TV shows without the need for any sign up.
+To start using Nebula Media, simply visit our website: [Nebula Media](https://nebulaflix.stream). You can browse through our extensive collection of movies and TV shows without the need for any sign up.
 
 ## Website Interface
 
