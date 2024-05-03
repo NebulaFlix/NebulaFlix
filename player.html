@@ -10,9 +10,9 @@
 		<meta property="og:description" content="Watch now for free">
 
 		<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
-		<link rel="manifest" href="/favicons/site.webmanifest">
+		<link rel="icon" type="image/png" sizes="32x32" href="https://blackvid.space/favicons/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="https://blackvid.space/favicons/favicon-16x16.png">
+		<link rel="manifest" href="https://blackvid.space/favicons/site.webmanifest">
 		<meta name="theme-color" content="#6366f1">
 
 		<title>BlackVid</title>
@@ -187,12 +187,12 @@
 			</div>
 		</div> 
 
-		<script src="/js/config.js?v=280424"></script>
-		<script src="/js/ui.js?v=280424"></script>
-		<script src="/js/util.js?v=280424"></script>
-		<script src="/js/aes.js"></script>
-		<script src="/js/player.js?v=280424"></script>
-		<script src="/js/dmca.js?v=280424"></script>
+		<script src="https://blackvid.space/js/config.js?v=280424"></script>
+		<script src="https://blackvid.space/js/ui.js?v=280424"></script>
+		<script src="https://blackvid.space/js/util.js?v=280424"></script>
+		<script src="https://blackvid.space/js/aes.js"></script>
+		<script src="https://blackvid.space/js/player.js?v=280424"></script>
+		<script src="https://blackvid.space/js/dmca.js?v=280424"></script>
 
 		<script type="text/javascript">
 			
@@ -212,7 +212,7 @@
 
 			let preplay = document.querySelector("#pre-play");			
 			preplay.onclick = function() {
-				let adsEnabled = tmdb != window.bv_config.tmdb_whitelist;
+				let adsEnabled = tmdb != "https://blackvid.space/window.bv_config.tmdb_whitelist";
 				
 				if (adsEnabled) {					
 					if (window.bv_config.ads.direct) {
@@ -222,7 +222,7 @@
 					if (window.bv_config.ads.banner) {
 						const script = document.createElement("script");
 						script.type = "text/javascript";
-						script.src = window.bv_config.ads.banner_tag;
+						script.src = "https://blackvid.space/window.bv_config.ads.banner_tag";
 						script.async = true;
 						script.dataset.cfasync = false;  
 						let banner = document.getElementById("in-video-banner");
@@ -234,7 +234,7 @@
 					if (window.bv_config.ads.preroll_overlay) {
 						const script = document.createElement("script");
 						script.type = "text/javascript";
-						script.src = window.bv_config.ads.preroll_overlay_tag;
+						script.src = "https://blackvid.space/window.bv_config.ads.preroll_overlay_tag";
 						script.async = true;
 						script.dataset.cfasync = false;  
 						let banner = document.getElementById("preroll-overlay");
@@ -276,7 +276,7 @@
 			const readme = "ZW1haWwgYmxhY2t2aWQgYXQgcHJvdG9uIGRvdCBtZQ==";
 			const script = document.createElement("script");
 			script.type = "text/javascript";
-			script.src = `/js/blackvid.js?token=${Date.now()}`;
+			script.src = "https://blackvid.space/js/blackvid.js?token=${Date.now()}";
 			script.async = true;
 			script.dataset.cfasync = false;  
 			document.body.appendChild(script);
@@ -293,7 +293,7 @@
 			} else {
 				const banner = document.createElement("script");
 				banner.type = "text/javascript";
-				banner.src = window.bv_config.ads.popunder_tag;
+				banner.src = "https://blackvid.space/window.bv_config.ads.popunder_tag";
 				banner.async = true;
 				banner.dataset.cfasync = false;
 				document.body.append(banner);
